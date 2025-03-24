@@ -116,6 +116,11 @@ html.dark-theme .theme-toggle:hover i {
   transition: background-color 0.3s ease;
 }
 
+/* Hide brush strokes in dark mode */
+html.dark-theme .brush-stroke {
+  display: none;
+}
+
 .top-right {
   top: 20px;
   right: 50px;
