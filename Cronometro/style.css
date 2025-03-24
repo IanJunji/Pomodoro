@@ -1,0 +1,210 @@
+/* Base minimalista inspirada em Bauhaus */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+:root {
+  --primary-red: #e63946;
+  --primary-blue: #1d3557;
+  --primary-light: #f1faee;
+  --accent-color: #457b9d;
+  --bg-light: #f8f9fa;
+  --text-dark: #212529;
+  --text-light: #6c757d;
+  --zen-color: #e9ecef;
+  --transition-fast: 0.3s ease;
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 0 20px;
+}
+
+.cronometro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  overflow: visible;
+}
+
+/* Elemento geométrico Bauhaus no canto */
+.cronometro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background-color: var(--primary-light);
+  z-index: 0;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+.cronometro h1 {
+  text-align: center;
+  color: var(--text-dark);
+  font-weight: 500;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.cronometro p {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 40px;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 300;
+  max-width: 80%;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+  z-index: 10;
+  position: relative;
+}
+
+button {
+  padding: 18px 20px;
+  border: none;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition-slow);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  background-color: white;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  z-index: 1;
+}
+
+button::after {
+  content: "→";
+  position: absolute;
+  right: 20px;
+  opacity: 0;
+  transition: var(--transition-fast);
+}
+
+button:hover::after {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+.botao-pomodoro {
+  border-left: 5px solid var(--primary-red);
+}
+
+.botao-pomodoro:hover {
+  background-color: var(--primary-red);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.botao-normal {
+  border-left: 5px solid var(--primary-blue);
+}
+
+.botao-normal:hover {
+  background-color: var(--primary-blue);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.botao-zen {
+  border-left: 5px solid var(--zen-color);
+}
+
+.botao-zen:hover {
+  background-color: var(--zen-color);
+  color: var(--text-dark);
+  box-shadow: var(--shadow-md);
+}
+
+/* Elementos geométricos nos botões - estilo Bauhaus */
+.button-shape {
+  min-width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  opacity: 0.7;
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.pomodoro-shape {
+  background-color: var(--primary-red);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.normal-shape {
+  background-color: var(--primary-blue);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.zen-shape {
+  background-color: var(--text-light);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+button:hover .button-shape {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Animações de hover - crescimento sutil */
+.cronometro button {
+  transform-origin: left center;
+}
+
+.cronometro:hover button:not(:hover) {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.cronometro button:hover {
+  transform: scale(1.03);
+}
+
+/* Remover animações antigas */
+.timer-marks,
+.timer-hand,
+.clock-container,
+.clock,
+.zen-waves,
+.zen-wave {
+  display: none;
+}

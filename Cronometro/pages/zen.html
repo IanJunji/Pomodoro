@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modo Zen</title>
+    <link rel="stylesheet" href="../css/zen.css" />
+    <!-- Font Awesome para ícones -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="zen-container">
+      <div class="brush-stroke top-right"></div>
+      <div class="brush-stroke bottom-left"></div>
+
+      <!-- Botão de alternar tema (dark/light mode) -->
+      <button id="theme-toggle" class="theme-toggle">
+        <i class="fas fa-sun"></i>
+      </button>
+
+      <h1>Zen</h1>
+
+      <!-- Seletor de modos -->
+      <div class="mode-selector">
+        <button class="mode-btn" id="clock-mode">Relógio</button>
+        <button class="mode-btn active" id="chrono-mode">Cronômetro</button>
+        <button class="mode-btn" id="timer-mode">Timer</button>
+      </div>
+
+      <!-- Campos para configurar o timer (inicialmente ocultos) -->
+      <div class="timer-input hidden" id="timer-config">
+        <input
+          type="number"
+          id="hours-input"
+          min="0"
+          max="23"
+          value="0"
+          placeholder="00"
+        />
+        <span>:</span>
+        <input
+          type="number"
+          id="minutes-input"
+          min="0"
+          max="59"
+          value="0"
+          placeholder="00"
+        />
+        <span>:</span>
+        <input
+          type="number"
+          id="seconds-input"
+          min="0"
+          max="59"
+          value="0"
+          placeholder="00"
+        />
+      </div>
+
+      <div class="flip-clock">
+        <div class="time-section hours">
+          <div class="flip-card">
+            <div class="top" data-value="00"></div>
+            <div class="bottom" data-value="00"></div>
+            <div class="top-flip" data-value="00"></div>
+            <div class="bottom-flip" data-value="00"></div>
+          </div>
+        </div>
+        <div class="separator">:</div>
+        <div class="time-section minutes">
+          <div class="flip-card">
+            <div class="top" data-value="00"></div>
+            <div class="bottom" data-value="00"></div>
+            <div class="top-flip" data-value="00"></div>
+            <div class="bottom-flip" data-value="00"></div>
+          </div>
+        </div>
+        <div class="separator">:</div>
+        <div class="time-section seconds">
+          <div class="flip-card">
+            <div class="top" data-value="00"></div>
+            <div class="bottom" data-value="00"></div>
+            <div class="top-flip" data-value="00"></div>
+            <div class="bottom-flip" data-value="00"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="timer-btn" id="start-btn">Iniciar</button>
+        <button class="timer-btn" id="pause-btn">Pausar</button>
+        <button class="timer-btn" id="reset-btn">Reiniciar</button>
+      </div>
+
+      <!-- Botão Voltar posicionado no canto inferior direito -->
+      <button class="home-btn" onclick="window.location.href='../index.html'">
+        Voltar
+      </button>
+    </div>
+
+    <script src="../js/zen.js"></script>
+  </body>
+</html>

@@ -1,0 +1,492 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&display=swap");
+
+:root {
+  /* Variáveis para tema claro (padrão) */
+  --bg-color: #f5f5f5;
+  --text-color: #333;
+  --text-color-rgb: 51, 51, 51;
+  --accent-color: #111;
+  --light-gray: #e0e0e0;
+  --medium-gray: #999;
+  --dark-gray: #555;
+  --flip-shadow: rgba(0, 0, 0, 0.1);
+  --flip-card-bg: #fff;
+  --brush-color: rgba(0, 0, 0, 0.08);
+  --button-hover-bg: #111;
+  --button-hover-text: #f5f5f5;
+}
+
+/* Variáveis para tema escuro */
+html.dark-theme {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --text-color-rgb: 224, 224, 224;
+  --accent-color: #f0f0f0;
+  --light-gray: #333;
+  --medium-gray: #777;
+  --dark-gray: #aaa;
+  --flip-shadow: rgba(0, 0, 0, 0.3);
+  --flip-card-bg: #1e1e1e;
+  --brush-color: rgba(255, 255, 255, 0.08);
+  --button-hover-bg: #f0f0f0;
+  --button-hover-text: #121212;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Noto Serif JP", serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.zen-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+  overflow: hidden;
+}
+
+/* Botão de alternar tema */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: none !important;
+  border: none !important;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 1.8rem;
+  z-index: 100;
+  transition: transform 0.3s ease;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus,
+.theme-toggle:active {
+  transform: translateY(-2px);
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.theme-toggle i {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+  background: none !important;
+}
+
+.theme-toggle:hover i {
+  color: #bbbbbb; /* Tons mais claros para o sol no hover */
+  opacity: 0.9;
+}
+
+html.dark-theme .theme-toggle i {
+  color: var(--text-color);
+}
+
+html.dark-theme .theme-toggle:hover i {
+  color: #999999; /* Tons mais escuros para a lua no hover */
+  opacity: 0.9;
+}
+
+/* Elementos de pincelada oriental */
+.brush-stroke {
+  position: absolute;
+  background-color: var(--brush-color);
+  opacity: 0.1;
+  z-index: 0;
+  transition: background-color 0.3s ease;
+}
+
+.top-right {
+  top: 20px;
+  right: 50px;
+  width: 120px;
+  height: 30px;
+  transform: rotate(25deg);
+  border-radius: 50% 20% 50% 20%;
+}
+
+.bottom-left {
+  bottom: 40px;
+  left: 40px;
+  width: 180px;
+  height: 25px;
+  transform: rotate(-15deg);
+  border-radius: 20% 50% 20% 50%;
+}
+
+/* Desenho de fundo minimalista */
+.zen-background,
+.zen-circle,
+.zen-line,
+.zen-coin {
+  display: none;
+}
+
+h1 {
+  font-weight: 200;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  letter-spacing: 1rem;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+/* Estilo do relógio flip */
+.flip-clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+  z-index: 1;
+}
+
+.time-section {
+  margin: 0 0.5rem;
+}
+
+.flip-card {
+  position: relative;
+  width: 120px;
+  height: 140px;
+  perspective: 1200px;
+}
+
+/* Elementos estáticos */
+.top,
+.bottom {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  background-color: var(--flip-card-bg);
+  box-shadow: 0 2px 6px var(--flip-shadow);
+  overflow: hidden;
+  z-index: 2;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.top {
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid var(--light-gray);
+  top: 0;
+}
+
+.bottom {
+  border-radius: 0 0 8px 8px;
+  top: 50%;
+}
+
+/* Conteúdo dos números */
+.top::after,
+.bottom::after,
+.top-flip::after,
+.bottom-flip::after {
+  content: attr(data-value);
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  color: var(--text-color);
+  font-size: 3.5rem;
+  font-weight: 200;
+  transition: color 0.3s ease;
+}
+
+.top::after,
+.top-flip::after {
+  bottom: 0;
+  height: 50%;
+  line-height: 70px;
+}
+
+.bottom::after,
+.bottom-flip::after {
+  top: 0;
+  height: 50%;
+  line-height: 0;
+}
+
+/* Elementos de animação */
+.top-flip,
+.bottom-flip {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  background-color: var(--flip-card-bg);
+  box-shadow: 0 2px 6px var(--flip-shadow);
+  backface-visibility: hidden;
+  overflow: hidden;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.top-flip {
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid var(--light-gray);
+  top: 0;
+  transform-origin: bottom;
+  animation: none;
+  display: none;
+}
+
+.bottom-flip {
+  border-radius: 0 0 8px 8px;
+  top: 50%;
+  transform-origin: top;
+  transform: rotateX(90deg);
+  animation: none;
+  display: none;
+}
+
+/* Animações */
+@keyframes topFlip {
+  0% {
+    transform: rotateX(0deg);
+    z-index: 10;
+  }
+  100% {
+    transform: rotateX(-90deg);
+    z-index: 5;
+  }
+}
+
+@keyframes bottomFlip {
+  0% {
+    transform: rotateX(90deg);
+    z-index: 5;
+  }
+  100% {
+    transform: rotateX(0deg);
+    z-index: 10;
+  }
+}
+
+.flip-card.flipping .top-flip {
+  display: block;
+  animation: topFlip 0.5s ease-in forwards;
+  z-index: 10;
+}
+
+.flip-card.flipping .bottom-flip {
+  display: block;
+  animation: bottomFlip 0.5s ease-out 0.5s forwards;
+  z-index: 5;
+}
+
+.separator {
+  font-size: 3rem;
+  font-weight: 200;
+  color: var(--accent-color);
+}
+
+/* Controles */
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  z-index: 1;
+}
+
+button {
+  background: transparent;
+  border: 1px solid var(--medium-gray);
+  color: var(--text-color);
+  padding: 0.8rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+button:hover {
+  background-color: var(--button-hover-bg);
+  color: var(--button-hover-text);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.timer-btn {
+  min-width: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.timer-btn::after {
+  content: "";
+  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+  width: 5px;
+  height: 100%;
+  left: -10px;
+  top: 0;
+  transform: skewX(-15deg);
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.timer-btn:hover::after {
+  left: 120%;
+  opacity: 1;
+}
+
+.home-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  margin: 0;
+  width: 100%;
+  max-width: 200px;
+  border: 1px solid var(--dark-gray);
+  z-index: 10;
+}
+
+/* Modos de operação */
+.mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+  width: 100%;
+  z-index: 1;
+}
+
+.mode-btn {
+  background: transparent;
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  opacity: 0.6;
+  position: relative;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.mode-btn::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.mode-btn.active {
+  opacity: 1;
+}
+
+.mode-btn.active::after {
+  width: 100%;
+}
+
+/* Estilos para timer */
+.timer-input {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.timer-input input {
+  width: 60px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--medium-gray);
+  font-family: inherit;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  padding: 0.5rem;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.timer-input input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--accent-color);
+}
+
+.timer-input span {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+/* Esconder elementos não usados no modo atual */
+.hidden {
+  display: none !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .flip-card {
+    width: 80px;
+    height: 100px;
+  }
+
+  .separator {
+    font-size: 2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timer-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .home-btn {
+    bottom: 15px;
+    right: 15px;
+    max-width: 120px;
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .theme-toggle {
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}

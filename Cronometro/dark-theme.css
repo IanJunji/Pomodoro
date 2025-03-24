@@ -1,0 +1,216 @@
+/* Tema minimalista escuro */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+:root {
+  --dark-bg: #202124;
+  --container-bg: #292a2d;
+  --primary-red: #ff4a57;
+  --primary-blue: #4285f4;
+  --text-light: #e0e0e0;
+  --text-primary: #ffffff;
+  --text-secondary: #9aa0a6;
+  --zen-color: #626367;
+  --border-light: #3c3c3e;
+  --transition-fast: 0.3s ease;
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --accent-light: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--text-light);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 0 20px;
+}
+
+.cronometro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--container-bg);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-dark);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  border: 1px solid var(--border-light);
+  overflow: visible;
+}
+
+/* Elemento geométrico no canto */
+.cronometro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background-color: var(--accent-light);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  border-top-right-radius: 12px;
+  z-index: 0;
+}
+
+.cronometro h1 {
+  text-align: center;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.cronometro p {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 300;
+  max-width: 90%;
+  position: relative;
+  z-index: 1;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+button {
+  padding: 18px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: var(--transition-slow);
+  width: 100%;
+  text-align: left;
+  background-color: #333438;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-left: 5px solid transparent;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 10px;
+}
+
+button::after {
+  content: "→";
+  position: absolute;
+  right: 20px;
+  opacity: 0;
+  transition: var(--transition-fast);
+}
+
+button:hover::after {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+.botao-pomodoro {
+  border-left: 5px solid var(--primary-red);
+}
+
+.botao-pomodoro:hover {
+  background-color: #3a383a;
+  transform: translateX(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.botao-normal {
+  border-left: 5px solid var(--primary-blue);
+}
+
+.botao-normal:hover {
+  background-color: #3a383a;
+  transform: translateX(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.botao-zen {
+  border-left: 5px solid var(--zen-color);
+}
+
+.botao-zen:hover {
+  background-color: #3a383a;
+  transform: translateX(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Debug para visualizar os botões */
+.botao-pomodoro,
+.botao-normal,
+.botao-zen {
+  opacity: 1 !important;
+}
+
+/* Elementos geométricos nos botões */
+.button-shape {
+  min-width: 24px;
+  height: 24px;
+  margin-right: 15px;
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.pomodoro-shape {
+  background-color: var(--primary-red);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.normal-shape {
+  background-color: var(--primary-blue);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.zen-shape {
+  background-color: var(--zen-color);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+button:hover .button-shape {
+  transform: scale(1.2);
+}
+
+/* Animações de hover mais sutis */
+.cronometro:hover button:not(:hover) {
+  opacity: 0.7;
+}
+
+/* Para dispositivos móveis */
+@media (max-width: 768px) {
+  .cronometro {
+    padding: 30px 20px;
+    width: 95%;
+  }
+
+  button {
+    padding: 15px 15px;
+  }
+
+  .cronometro h1 {
+    font-size: 1.8rem;
+  }
+}
