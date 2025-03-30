@@ -1,216 +1,117 @@
-/* Tema minimalista escuro */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+/* Tema escuro para a página principal do Cronômetro */
 
-:root {
-  --dark-bg: #202124;
-  --container-bg: #292a2d;
-  --primary-red: #ff4a57;
-  --primary-blue: #4285f4;
-  --text-light: #e0e0e0;
-  --text-primary: #ffffff;
-  --text-secondary: #9aa0a6;
-  --zen-color: #626367;
-  --border-light: #3c3c3e;
-  --transition-fast: 0.3s ease;
-  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  --shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --accent-light: rgba(255, 255, 255, 0.1);
+html.dark-theme {
+  --primary-red: #ff5a67;
+  --primary-blue: #4d79a8;
+  --primary-light: #e4e6ed;
+  --accent-color: #6ba7c5;
+  --bg-light: #1a1c20;
+  --text-dark: #e0e0e0;
+  --text-light: #9ca3af;
+  --zen-color: #2e3139;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+html.dark-theme body {
+  background-color: #121316;
+  color: #e0e0e0;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  background-color: var(--dark-bg);
-  color: var(--text-light);
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 0 20px;
+html.dark-theme .cronometro {
+  background-color: #1e2028;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-.cronometro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--container-bg);
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: var(--shadow-dark);
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  border: 1px solid var(--border-light);
-  overflow: visible;
+html.dark-theme .cronometro::before {
+  display: block;
+  background-color: #2a2d36;
 }
 
-/* Elemento geométrico no canto */
-.cronometro::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 60px;
-  height: 60px;
-  background-color: var(--accent-light);
-  clip-path: polygon(100% 0, 0 0, 100% 100%);
-  border-top-right-radius: 12px;
-  z-index: 0;
+/* Tema escuro para o botão de tema */
+html.dark-theme .theme-toggle {
+  color: #e0e0e0 !important;
 }
 
-.cronometro h1 {
-  text-align: center;
-  color: var(--text-primary);
-  font-weight: 500;
-  margin-bottom: 20px;
-  font-size: 2rem;
-  letter-spacing: -0.5px;
-  position: relative;
-  z-index: 1;
+html.dark-theme .theme-toggle i {
+  color: #e0e0e0;
 }
 
-.cronometro p {
-  text-align: center;
-  color: var(--text-secondary);
-  margin-bottom: 40px;
-  font-size: 1rem;
-  line-height: 1.6;
-  font-weight: 300;
-  max-width: 90%;
-  position: relative;
-  z-index: 1;
-}
-
-.buttons-container {
-  display: flex;
+/* Botões no tema escuro */
+html.dark-theme .buttons-container {
+  display: flex !important;
   flex-direction: column;
   width: 100%;
-  gap: 15px;
-  position: relative;
-  z-index: 2;
+  z-index: 100;
 }
 
-button {
-  padding: 18px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 400;
-  cursor: pointer;
-  transition: var(--transition-slow);
-  width: 100%;
-  text-align: left;
-  background-color: #333438;
-  color: var(--text-light);
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  border-left: 5px solid transparent;
-  position: relative;
-  z-index: 2;
-  margin-bottom: 10px;
-}
-
-button::after {
-  content: "→";
-  position: absolute;
-  right: 20px;
-  opacity: 0;
-  transition: var(--transition-fast);
-}
-
-button:hover::after {
-  opacity: 1;
-  transform: translateX(5px);
-}
-
-.botao-pomodoro {
-  border-left: 5px solid var(--primary-red);
-}
-
-.botao-pomodoro:hover {
-  background-color: #3a383a;
-  transform: translateX(10px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.botao-normal {
-  border-left: 5px solid var(--primary-blue);
-}
-
-.botao-normal:hover {
-  background-color: #3a383a;
-  transform: translateX(10px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.botao-zen {
-  border-left: 5px solid var(--zen-color);
-}
-
-.botao-zen:hover {
-  background-color: #3a383a;
-  transform: translateX(10px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Debug para visualizar os botões */
-.botao-pomodoro,
-.botao-normal,
-.botao-zen {
+html.dark-theme .buttons-container button {
+  display: flex !important;
+  background-color: #2a2d36 !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+  margin-bottom: 15px !important;
   opacity: 1 !important;
+  visibility: visible !important;
+  padding: 18px 20px !important;
+  position: relative !important;
+  z-index: 100 !important;
 }
 
-/* Elementos geométricos nos botões */
-.button-shape {
-  min-width: 24px;
-  height: 24px;
-  margin-right: 15px;
-  transition: var(--transition-fast);
-  flex-shrink: 0;
+html.dark-theme button::after {
+  color: #e4e6ed;
 }
 
-.pomodoro-shape {
-  background-color: var(--primary-red);
-  border-radius: 50%;
-  transform-origin: center;
+html.dark-theme .botao-pomodoro {
+  border-left: 5px solid #ff5a67 !important;
 }
 
-.normal-shape {
-  background-color: var(--primary-blue);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+html.dark-theme .botao-normal {
+  border-left: 5px solid #4d79a8 !important;
 }
 
-.zen-shape {
-  background-color: var(--zen-color);
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+html.dark-theme .botao-zen {
+  border-left: 5px solid #74777f !important;
 }
 
-button:hover .button-shape {
-  transform: scale(1.2);
+html.dark-theme .botao-pomodoro:hover {
+  background-color: #ff5a67 !important;
+  color: white !important;
 }
 
-/* Animações de hover mais sutis */
-.cronometro:hover button:not(:hover) {
-  opacity: 0.7;
+html.dark-theme .botao-normal:hover {
+  background-color: #4d79a8 !important;
+  color: white !important;
 }
 
-/* Para dispositivos móveis */
-@media (max-width: 768px) {
-  .cronometro {
-    padding: 30px 20px;
-    width: 95%;
-  }
+html.dark-theme .botao-zen:hover {
+  background-color: #2e3139 !important;
+  color: white !important;
+}
 
-  button {
-    padding: 15px 15px;
-  }
+/* Tema escuro para formas geométricas */
+html.dark-theme .pomodoro-shape {
+  background-color: #ff5a67 !important;
+  opacity: 1 !important;
+  display: block !important;
+}
 
-  .cronometro h1 {
-    font-size: 1.8rem;
-  }
+html.dark-theme .normal-shape {
+  background-color: #4d79a8 !important;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+html.dark-theme .zen-shape {
+  background-color: #74777f !important;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+/* Texto no tema escuro */
+html.dark-theme h1,
+html.dark-theme p {
+  color: #e0e0e0;
 }

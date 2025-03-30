@@ -29,6 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Todos os cards flip para animação
   const allFlipCards = document.querySelectorAll(".flip-card");
 
+  // Cria o elemento de áudio para o feedback sonoro
+  const timerSound = new Audio();
+  timerSound.src = "../sounds/timer-end.mp3";
+  timerSound.preload = "auto";
+
   // Variáveis de estado
   let hours = 0;
   let minutes = 0;
@@ -89,9 +94,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const formattedMinutes = formatTwoDigits(minutes);
     const formattedSeconds = formatTwoDigits(seconds);
 
-    updateFlipCard("hours", formattedHours);
-    updateFlipCard("minutes", formattedMinutes);
-    updateFlipCard("seconds", formattedSeconds);
+    // Somente atualiza se o valor mudou, para evitar animações desnecessárias
+    if (hoursTopEl.getAttribute("data-value") !== formattedHours) {
+      updateFlipCard("hours", formattedHours);
+    }
+
+    if (minutesTopEl.getAttribute("data-value") !== formattedMinutes) {
+      updateFlipCard("minutes", formattedMinutes);
+    }
+
+    if (secondsTopEl.getAttribute("data-value") !== formattedSeconds) {
+      updateFlipCard("seconds", formattedSeconds);
+    }
   }
 
   // Função melhorada para atualizar um cartão flip
@@ -254,13 +268,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // Se chegou a zero
     if (hours === 0 && minutes === 0 && seconds === 0) {
       clearAllIntervals();
-      // Alerta visual de término (pisca o display)
-      allFlipCards.forEach((card) => {
-        card.style.animation = "pulse 0.5s 3";
+
+      // Feedback sonoro quando o timer termina
+      timerSound.play().catch((error) => {
+        console.log("Não foi possível reproduzir o som: ", error);
       });
+
+      // Alerta visual de término (pisca o display usando classe CSS)
+      allFlipCards.forEach((card) => {
+        card.classList.add("pulse-animation");
+      });
+
       setTimeout(() => {
         allFlipCards.forEach((card) => {
-          card.style.animation = "";
+          card.classList.remove("pulse-animation");
         });
       }, 2000);
     }
@@ -268,11 +289,27 @@ document.addEventListener("DOMContentLoaded", function () {
     updateDisplay();
   }
 
-  // Configura os valores iniciais do timer a partir dos inputs
+  // Validação e configuração dos valores do timer a partir dos inputs
   function setupTimer() {
-    hours = parseInt(hoursInput.value) || 0;
-    minutes = parseInt(minutesInput.value) || 0;
-    seconds = parseInt(secondsInput.value) || 0;
+    // Validar os inputs para garantir valores positivos
+    const hoursValue = Math.max(0, parseInt(hoursInput.value) || 0);
+    const minutesValue = Math.max(0, parseInt(minutesInput.value) || 0);
+    const secondsValue = Math.max(0, parseInt(secondsInput.value) || 0);
+
+    // Normalizar minutos e segundos (não permitir valores > 59)
+    const normalizedMinutes = Math.min(59, minutesValue);
+    const normalizedSeconds = Math.min(59, secondsValue);
+
+    // Atualizar os inputs com os valores normalizados
+    hoursInput.value = hoursValue;
+    minutesInput.value = normalizedMinutes;
+    secondsInput.value = normalizedSeconds;
+
+    // Atualizar variáveis de estado
+    hours = hoursValue;
+    minutes = normalizedMinutes;
+    seconds = normalizedSeconds;
+
     updateDisplay();
   }
 
@@ -285,6 +322,19 @@ document.addEventListener("DOMContentLoaded", function () {
   clockModeBtn.addEventListener("click", () => switchMode("clock"));
   chronoModeBtn.addEventListener("click", () => switchMode("chrono"));
   timerModeBtn.addEventListener("click", () => switchMode("timer"));
+
+  // Validação de entrada para campos numéricos do timer
+  [hoursInput, minutesInput, secondsInput].forEach((input) => {
+    input.addEventListener("input", function () {
+      // Remover caracteres não numéricos
+      this.value = this.value.replace(/[^0-9]/g, "");
+
+      // Limitar comprimento
+      if (this.value.length > 2) {
+        this.value = this.value.slice(0, 2);
+      }
+    });
+  });
 
   // Botão Iniciar
   startBtn.addEventListener("click", function () {
@@ -324,9 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
     clearAllIntervals();
 
     if (currentMode === "timer") {
-      hours = parseInt(hoursInput.value) || 0;
-      minutes = parseInt(minutesInput.value) || 0;
-      seconds = parseInt(secondsInput.value) || 0;
+      setupTimer();
     } else if (currentMode === "chrono") {
       hours = 0;
       minutes = 0;
@@ -382,15 +430,4 @@ document.addEventListener("DOMContentLoaded", function () {
     topFlipEl.setAttribute("data-value", value);
     bottomFlipEl.setAttribute("data-value", value);
   });
-
-  // Adiciona animação de pulse para o fim do timer
-  const style = document.createElement("style");
-  style.textContent = `
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(style);
 });

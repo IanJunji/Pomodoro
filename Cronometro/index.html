@@ -6,51 +6,123 @@
     <title>Cronômetro</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="dark-theme.css" />
-    <!-- Estilos inline para debugging -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="dark-theme.css" id="theme-style" />
+    <link rel="stylesheet" href="fix-buttons.css" />
+    <!-- Font Awesome para ícones - versão completa -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <style>
-      /* Garantir que os botões sejam visíveis */
-      button {
-        display: flex !important;
-        opacity: 1 !important;
-        z-index: 100 !important;
-        background-color: #333438 !important;
-        color: white !important;
-        margin-bottom: 10px !important;
-      }
-
-      .buttons-container {
-        z-index: 100 !important;
-        width: 100% !important;
-        position: relative !important;
-      }
-
-      /* Esconder o elemento decorativo temporariamente */
-      .cronometro::before {
+      /* Backup para o ícone do sol caso o Font Awesome falhe */
+      .theme-toggle .fallback-icon {
         display: none;
+      }
+      /* Caso o ícone do FA falhe, mostramos um backup */
+      .theme-toggle i.fas.fa-sun:not(:visible) + .fallback-icon,
+      .theme-toggle i.fas.fa-moon:not(:visible) + .fallback-icon {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #ffa500;
+      }
+
+      /* Estilos forçados para os botões no tema claro */
+      .buttons-container {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 15px !important;
+        z-index: 100 !important;
+        position: relative !important;
+        margin-top: 20px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .buttons-container button {
+        display: flex !important;
+        background-color: white !important;
+        padding: 18px 20px !important;
+        margin-bottom: 15px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 100 !important;
+        position: relative !important;
       }
     </style>
   </head>
   <body>
     <div class="cronometro">
+      <!-- Botão de tema no canto superior direito -->
+      <div class="theme-toggle-container">
+        <button id="theme-toggle" class="theme-toggle">
+          <i class="fas fa-sun"></i>
+          <span class="fallback-icon"></span>
+        </button>
+      </div>
+
       <h1>Cronômetro</h1>
       <p>
         Selecione um modo para iniciar o seu tempo de forma eficiente e
         produtiva.
       </p>
 
-      <div class="buttons-container">
-        <button class="botao-pomodoro" id="btn-pomodoro">
+      <div
+        class="buttons-container"
+        style="
+          display: flex !important;
+          flex-direction: column !important;
+          width: 100% !important;
+          z-index: 100 !important;
+          position: relative !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        "
+      >
+        <button
+          class="botao-pomodoro"
+          id="btn-pomodoro"
+          style="
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 100 !important;
+          "
+        >
           <div class="button-shape pomodoro-shape"></div>
           Pomodoro
         </button>
 
-        <button class="botao-normal" id="btn-normal">
+        <button
+          class="botao-normal"
+          id="btn-normal"
+          style="
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 100 !important;
+          "
+        >
           <div class="button-shape normal-shape"></div>
           Normal
         </button>
 
-        <button class="botao-zen" id="btn-zen">
+        <button
+          class="botao-zen"
+          id="btn-zen"
+          style="
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 100 !important;
+          "
+        >
           <div class="button-shape zen-shape"></div>
           Zen
         </button>
@@ -59,30 +131,6 @@
 
     <!-- JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>
-      // Script inline para garantir que os botões sejam visíveis
-      document.addEventListener("DOMContentLoaded", function () {
-        // Forçar visibilidade dos botões
-        document.querySelectorAll("button").forEach((btn) => {
-          btn.style.display = "flex";
-          btn.style.opacity = "1";
-          btn.style.position = "relative";
-          btn.style.zIndex = "100";
-
-          // Adicionar evento de clique para navegação
-          btn.addEventListener("click", function () {
-            if (this.id === "btn-pomodoro") {
-              window.location.href = "pages/pomodoro.html";
-            } else if (this.id === "btn-normal") {
-              window.location.href = "pages/timer-comum.html";
-            } else if (this.id === "btn-zen") {
-              window.location.href = "pages/zen.html";
-            }
-          });
-        });
-
-        console.log("Botões inicializados com navegação");
-      });
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
