@@ -71,6 +71,95 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  const volumeSlider = document.getElementById("volume-slider");
+  let ytPlayer; // Variável para guardar a instância do player do YouTube
+
+  // 1. Carregar a API do IFrame Player do YouTube de forma assíncrona
+  //    Isso adiciona a tag <script> que baixa o código da API do YouTube.
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api"; // URL oficial da API
+  const firstScriptTag = document.getElementsByTagName("script")[0]; // Encontra o primeiro script na página
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); // Insere a tag da API antes do primeiro script
+
+  // 2. Função global 'onYouTubeIframeAPIReady'
+  //    A API do YouTube chama esta função automaticamente quando o código dela é carregado e está pronto.
+  window.onYouTubeIframeAPIReady = function () {
+    console.log("API do YouTube pronta."); // Para debugging
+    ytPlayer = new YT.Player("youtube-player", {
+      // Cria uma nova instância do player
+      // 'youtube-player' é o ID do <div> que você adicionou no HTML para o player
+      height: "0", // Altura 0 para esconder o vídeo
+      width: "0", // Largura 0 para esconder o vídeo
+      videoId: "jfKfPfyJRdk", // ID do vídeo Lofi Girl (pode ser '1' se a busca anterior funcionar assim, mas 'jfKfPfyJRdk' é o ID real)
+      playerVars: {
+        // Parâmetros do player
+        autoplay: 1, // Tenta iniciar o vídeo automaticamente
+        controls: 0, // Remove os controles padrão do YouTube
+        disablekb: 1, // Desabilita controle pelo teclado (para não interferir com a página)
+        fs: 0, // Remove o botão de tela cheia
+        iv_load_policy: 3, // Remove anotações do vídeo
+        loop: 1, // Faz o vídeo repetir
+        playlist: "jfKfPfyJRdk", // Necessário para o loop de um único vídeo funcionar (use o mesmo videoId aqui)
+        modestbranding: 1, // Usa uma logo do YouTube menor
+        rel: 0, // Não mostra vídeos relacionados ao final
+        showinfo: 0, // Não mostra informações do vídeo (título, autor)
+      },
+      events: {
+        // Eventos do player
+        onReady: onPlayerReady, // Função a ser chamada quando o player estiver pronto
+        onError: onPlayerError, // Função para tratar erros
+        // 'onStateChange': onPlayerStateChange // Para monitorar mudanças de estado (play, pause, etc.)
+      },
+    });
+  };
+
+  // 3. Função 'onPlayerReady'
+  //    Chamada quando o player do YouTube está pronto para receber comandos.
+  function onPlayerReady(event) {
+    console.log("Player pronto."); // Para debugging
+    if (volumeSlider) {
+      event.target.setVolume(volumeSlider.value); // Define o volume inicial com base no valor do slider
+    } else {
+      event.target.setVolume(50); // Define um volume padrão se o slider não for encontrado
+    }
+    // event.target.playVideo(); // Tenta iniciar o vídeo. O autoplay:1 já deve fazer isso.
+    // Navegadores modernos podem bloquear autoplay com som.
+    // Uma interação do usuário pode ser necessária.
+
+    // Estratégia para tentar contornar bloqueios de autoplay com som:
+    // Silenciar, iniciar o vídeo, e depois remover o mudo.
+    // Pode não funcionar em todos os navegadores ou situações.
+    event.target.mute();
+    event.target.playVideo();
+    setTimeout(() => {
+      if (ytPlayer && typeof ytPlayer.unMute === "function") {
+        event.target.unMute();
+        if (volumeSlider) {
+          event.target.setVolume(volumeSlider.value);
+        } else {
+          event.target.setVolume(50);
+        }
+      }
+    }, 500); // Pequeno atraso para o comando de play ser processado
+  }
+
+  // Função para tratar erros do player
+  function onPlayerError(event) {
+    console.error("Erro no player do YouTube:", event.data);
+    // Você pode adicionar lógica aqui para tentar recarregar ou informar o usuário.
+  }
+
+  // 4. Controle de Volume
+  //    Adiciona um listener ao slider de volume.
+  if (volumeSlider) {
+    volumeSlider.addEventListener("input", function () {
+      // 'input' é melhor que 'change' para atualização em tempo real
+      if (ytPlayer && typeof ytPlayer.setVolume === "function") {
+        ytPlayer.setVolume(this.value); // 'this.value' é o valor atual do slider (0-100)
+      }
+    });
+  }
+
   // ======= FUNÇÕES DE UTILIDADE =======
 
   // Formata um número para ter sempre dois dígitos
