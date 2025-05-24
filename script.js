@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.getElementById("btn-zen")?.addEventListener("click", function () {
-    window.location.href = "pages/zen.html";
+    window.location.href = "Cronometro/pages/zen.html";
   });
 
   // Animações das formas dos botões no hover
