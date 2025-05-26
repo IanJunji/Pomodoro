@@ -153,11 +153,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("btn-pomodoro")
     ?.addEventListener("click", function () {
-      window.location.href = "pages/pomodoro.html";
+      window.location.href = "Cronometro/pages/pomodoro.html";
     });
 
   document.getElementById("btn-normal")?.addEventListener("click", function () {
-    window.location.href = "pages/timer-comum.html";
+    window.location.href = "Cronometro/pages/timer-comum.html";
   });
 
   document.getElementById("btn-zen")?.addEventListener("click", function () {
